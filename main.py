@@ -22,10 +22,14 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
         # Parse the URL path
         parsed_path = urlparse(self.path).geturl()
         if parsed_path=="/": parsed_path="index.html"
-        elif parsed_path.startswith("/"): parsed_path=parsed_path[1:]
-        resolved_path = absolute_path("pages/").joinpath(parsed_path)
-        print(resolved_path)
-        print(parsed_path)
+        elif parsed_path.startswith("/"): 
+            parsed_path=parsed_path[1:]
+            resolved_path = absolute_path("pages/").joinpath(parsed_path)
+        else:
+            parsed_path=parsed_path[1:]
+            resolved_path = absolute_path(parsed_path)
+        print("parsed_path", parsed_path)
+        print("resolved_path: ",resolved_path)
         try:
             with open(resolved_path, mode='rb') as file:
                 self.send_response(200)
@@ -33,7 +37,7 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(file.read())
         except:
-            self.send_response(404, "No such page in the pages folder")
+            self.send_response(404, "Content not found for url")
             self.send_header("Content-Type", "text/html")
             self.end_headers()
             self.wfile.write(b"<b>404: NOTHING TO SEE HERE, YET")
