@@ -10,7 +10,7 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int)
+    parser.add_argument("--port", type=int, required=True)
     return parser.parse_args()
 
 def absolute_path(path:str):
@@ -21,19 +21,22 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         # Parse the URL path
         parsed_path = urlparse(self.path).geturl()
-        if parsed_path=="/": parsed_path="index.html"
-        elif parsed_path.startswith("/"): 
+        if parsed_path=="/": 
+            parsed_path="index.html"
+            resolved_path = absolute_path("pages/").joinpath(parsed_path)
+        elif parsed_path.endswith(".html"): # If the request ends with html, it is a page 
             parsed_path=parsed_path[1:]
             resolved_path = absolute_path("pages/").joinpath(parsed_path)
         else:
             parsed_path=parsed_path[1:]
             resolved_path = absolute_path(parsed_path)
-        print("parsed_path", parsed_path)
-        print("resolved_path: ",resolved_path)
+        print("parsed_path:\t", parsed_path)
+        print("resolved_path:\t",resolved_path)
+        content_type = parsed_path.split('.')[-1]
         try:
             with open(resolved_path, mode='rb') as file:
                 self.send_response(200)
-                self.send_header("Content-Type", "text/html")
+                self.send_header("Content-Type", f"text/{content_type}")
                 self.end_headers()
                 self.wfile.write(file.read())
         except:
@@ -48,8 +51,6 @@ if __name__ == '__main__':
     PORT = args.port
     with socketserver.TCPServer(('', PORT), ServerHandler) as httpd:
         print(f"Mock server running on port {PORT}")
-        httpd.serve_forever()
-    # parsed_path="index.html"
-    # resolved_path = absolute_path("pages/").joinpath(parsed_path)
-    # print(resolved_path)
-    
+        try:httpd.serve_forever()
+        except KeyboardInterrupt:print("Shutting down...")
+        finally:httpd.server_close()
