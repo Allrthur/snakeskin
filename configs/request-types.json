@@ -4,14 +4,15 @@
         "gif",
         "jpg",
         "jpeg",
+        "jpeg",
         "ico",
-        "svg"
+        "svg",
+        "ico"
     ],
     "audio":[
         "mp3",
         "wav",
-        "ogg",
-        "mpeg"
+        "ogg"
     ],
     "text":[
         "css",
@@ -19,5 +20,12 @@
         "xml",
         "txt",
         "json"
+    ],
+    "video":[
+        "mpeg",
+        "mp4",
+        "quicktime",
+        "wmv",
+        "webm"
     ]
 }

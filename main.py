@@ -3,9 +3,6 @@ import http.server
 import socketserver
 import json
 from urllib.parse import urlparse
-from datetime import datetime
-import uuid
-from pathlib import Path
 import argparse
 import traceback
 import sys
