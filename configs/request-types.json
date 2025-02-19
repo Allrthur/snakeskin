@@ -1,0 +1,31 @@
+{
+    "image":[
+        "png",
+        "gif",
+        "jpg",
+        "jpeg",
+        "jpeg",
+        "ico",
+        "svg",
+        "ico"
+    ],
+    "audio":[
+        "mp3",
+        "wav",
+        "ogg"
+    ],
+    "text":[
+        "css",
+        "html",
+        "xml",
+        "txt",
+        "json"
+    ],
+    "video":[
+        "mpeg",
+        "mp4",
+        "quicktime",
+        "wmv",
+        "webm"
+    ]
+}
