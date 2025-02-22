@@ -4,5 +4,5 @@ This repository was originally created as a test drive for github repositories, 
 
 # Attributions
 
-snakeskin_texture.jpg image by kjpargeter on Freepik 
-mixkit_crikets.wav sound by mixkit on https://mixkit.co/free-sound-effects/crickets/
+- snakeskin_texture.jpg image by kjpargeter on Freepik 
+- mixkit_crikets.wav sound by mixkit on https://mixkit.co/free-sound-effects/crickets/
