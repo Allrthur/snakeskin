@@ -8,6 +8,29 @@ import traceback
 import sys
 from utils import absolute_path
 
+def get_configs()->dict:
+    config = {}
+    
+    # Parse request-types.json
+    with open(absolute_path("configs/request-types.json"), mode="r") as file:
+        request_types:dict = json.loads(file.read())
+    request_types = {format_: type_ for type_, formats_ in request_types.items() for format_ in formats_}
+    config["request-types"]=request_types
+    
+    # Parse routing-pages.json
+    with open(absolute_path("configs/routing-pages.json"), mode="r") as file:
+        routing_pages:dict = json.loads(file.read())
+    request_types = {format_: type_ for type_, formats_ in request_types.items() for format_ in formats_}
+    
+    config["request-types"]=request_types
+    routing_list=routing_pages
+    
+    # Return parsed config files
+    return config, routing_list
+
+configs, routing_list = get_configs()
+
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, required=True)
@@ -15,23 +38,7 @@ def get_args():
 
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
     
-    def __get_configs(self)->dict:
-        config = {}
-        
-        # Parse request-types.json
-        with open(absolute_path("configs/request-types.json"), mode="r") as file:
-            request_types:dict = json.loads(file.read())
-        request_types = {format_: type_ for type_, formats_ in request_types.items() for format_ in formats_}
-        config["request-types"]=request_types
-        
-        # Return parsed config files
-        return config
-    
     def do_GET(self):
-        # TODO: Get this bit of code to run only once
-        configs = self.__get_configs()
-        # TODO: Routing should be handled by other files
-        routing_list = {"/index.html":"index.html"}
         
         # Parse the URL path
         parsed_path = urlparse(self.path).geturl()
